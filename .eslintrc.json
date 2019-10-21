@@ -1,0 +1,31 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "plugins": ["prettier"],
+    "parser": "@typescript-eslint/parser",
+    "extends": ["plugin:@typescript-eslint/recommended"],
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["./src"],
+                "extensions": [".js", ".ts"]
+            }
+        }
+    },
+    "rules": {
+        "prettier/prettier": "error",
+        "linebreak-style": ["error", "windows"],
+        "indent": ["error", 4],
+        "prefer-const": "warn",
+        "no-unused-vars": "warn",
+        "no-console": "off"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "cube2d",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "parcel serve src/index.html --open",
+        "build": "parcel build src/index.html --public-url . --no-source-maps",
+        "lint": "eslint src/**/*.[tj]s",
+        "lint:fix": "yarn lint --fix"
+    },
+    "author": "Milesq",
+    "license": "MIT",
+    "dependencies": {
+        "normalize.css": "^8.0.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.6.4",
+        "@typescript-eslint/eslint-plugin": "^2.4.0",
+        "@typescript-eslint/parser": "^2.4.0",
+        "eslint": "^6.5.1",
+        "eslint-config-prettier": "^6.4.0",
+        "eslint-plugin-prettier": "^3.1.1",
+        "parcel-bundler": "^1.12.4",
+        "prettier": "^1.18.2",
+        "sass": "^1.23.0",
+        "typescript": "^3.6.4"
+    }
+}

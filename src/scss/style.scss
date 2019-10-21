@@ -1,0 +1,7 @@
+@import 'normalize.css';
+@import './vars';
+
+body {
+  background-image: linear-gradient(to right bottom, $main, lighten($main, 20));
+  min-height: 100vh;
+}
