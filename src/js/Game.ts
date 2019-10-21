@@ -62,7 +62,9 @@ export default class Game {
                 return field;
             })
         );
+
         this.board = this.boards[0];
+        window.addEventListener('keydown', this.keydown_handler);
     }
 
     draw(): void {
@@ -72,5 +74,44 @@ export default class Game {
             this.ctx.fillStyle = fieldTypes[field];
             this.ctx.fillRect(x * S, y * S, S, S);
         });
+    }
+
+    keydown_handler(ev: KeyboardEvent): void {
+        const hotKeys = [...'wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
+
+        const left = () => {
+            console.log('left');
+        };
+
+        const right = () => {
+            console.log('right');
+        };
+
+        const up = () => {
+            console.log('up');
+        };
+
+        const down = () => {
+            console.log('down');
+        };
+
+        const actions = {
+            '[': () => {
+                console.log('Left dimension');
+            },
+            ']': () => {
+                this.board = this.boards[1];
+            },
+            ArrowLeft: left,
+            a: left,
+            ArrowRight: right,
+            d: right,
+            ArrowUp: up,
+            w: up,
+            ArrowDown: down,
+            s: down
+        };
+
+        if (hotKeys.find(key => key === ev.key)) actions[ev.key]();
     }
 }
