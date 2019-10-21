@@ -9,6 +9,7 @@ game.init();
 
 function draw(): void {
     game.draw();
+    window.requestAnimationFrame(draw);
 }
 
 window.requestAnimationFrame(draw);

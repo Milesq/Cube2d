@@ -1,4 +1,4 @@
-import { rand } from "./utils";
+import { rand } from './utils';
 
 export type PortalTarget = number;
 export type Field = 'Wall' | PortalTarget | 'Blank';
@@ -13,16 +13,19 @@ function isValid(x: string): x is keyof typeof colors {
     return true;
 }
 
-export const fieldTypes = new Proxy({}, {
-    get(_, field: string) {
-        if (!isValid(field)) throw Error('...');
+export const fieldTypes = new Proxy(
+    {},
+    {
+        get(_, field: string) {
+            if (!isValid(field)) throw Error('...');
 
-        const color = colors[field];
-        if (color) {
-            const [R, G, B] = color;
-            return `rgb(${R}, ${G}, ${B})`;
+            const color = colors[field];
+            if (color) {
+                const [R, G, B] = color;
+                return `rgb(${R}, ${G}, ${B})`;
+            }
+
+            return 'rgb(0, 128, 255)';
         }
-
-        return `rgb(${rand(0, 128)}, ${rand(0, 128)}, ${rand(0, 255)})`;
     }
-});
+);

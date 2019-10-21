@@ -4,8 +4,8 @@ import { Board, fieldTypes } from './BoardTypes';
 export default class Game {
     private readonly canvas: HTMLCanvasElement;
     private readonly ctx: CanvasRenderingContext2D;
-    private board: Board;
     private boards: Board[];
+    private dimensionNum: number;
 
     private COLUMNS: number;
     private ROWS: number;
@@ -35,6 +35,7 @@ export default class Game {
     constructor(_canvas: HTMLCanvasElement) {
         this.canvas = _canvas;
         this.ctx = _canvas.getContext('2d');
+        this.dimensionNum = 0;
     }
 
     setSize(cols: number, rows: number, _fieldSize: number = 50): void {
@@ -63,12 +64,11 @@ export default class Game {
             })
         );
 
-        this.board = this.boards[0];
-        window.addEventListener('keydown', this.keydown_handler);
+        window.addEventListener('keydown', this.keydown_handler.bind(this));
     }
 
     draw(): void {
-        this.board.forEach((field, i) => {
+        this.boards[this.dimensionNum].forEach((field, i) => {
             const S = this.fieldSize;
             const [x, y] = this.xy(i);
             this.ctx.fillStyle = fieldTypes[field];
@@ -95,13 +95,19 @@ export default class Game {
             console.log('down');
         };
 
+        const prevDimension = () => {
+            if (this.dimensionNum === 0) this.dimensionNum = this.boards.length - 1;
+            else --this.dimensionNum;
+        };
+
+        const nextDimension = () => {
+            if (this.dimensionNum === this.boards.length - 1) this.dimensionNum = 0;
+            else ++this.dimensionNum;
+        };
+
         const actions = {
-            '[': () => {
-                console.log('Left dimension');
-            },
-            ']': () => {
-                this.board = this.boards[1];
-            },
+            '[': prevDimension,
+            ']': nextDimension,
             ArrowLeft: left,
             a: left,
             ArrowRight: right,
