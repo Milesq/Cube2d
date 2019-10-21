@@ -1,11 +1,15 @@
 import { assert, rand } from './utils';
 import { Board, fieldTypes } from './BoardTypes';
+import Player from './Player';
 
 export default class Game {
+    player: Player;
+
     private readonly canvas: HTMLCanvasElement;
     private readonly ctx: CanvasRenderingContext2D;
     private boards: Board[];
     private dimensionNum: number;
+    private playerDimension: number;
 
     private COLUMNS: number;
     private ROWS: number;
@@ -32,13 +36,14 @@ export default class Game {
         return newBoard;
     }
 
-    constructor(_canvas: HTMLCanvasElement) {
+    constructor(_canvas: HTMLCanvasElement, cols: number, rows: number, _fieldSize: number = 50) {
         this.canvas = _canvas;
         this.ctx = _canvas.getContext('2d');
         this.dimensionNum = 0;
-    }
+        this.playerDimension = 0;
 
-    setSize(cols: number, rows: number, _fieldSize: number = 50): void {
+        this.player = new Player(0, 0, this.ctx, _fieldSize);
+
         this.COLUMNS = cols;
         this.ROWS = rows;
         this.fieldSize = _fieldSize;
@@ -74,25 +79,67 @@ export default class Game {
             this.ctx.fillStyle = fieldTypes[field];
             this.ctx.fillRect(x * S, y * S, S, S);
         });
+
+        if (this.playerDimension === this.dimensionNum) this.player.draw();
     }
 
     keydown_handler(ev: KeyboardEvent): void {
-        const hotKeys = [...'wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
+        const hotKeys = [...' wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
 
         const left = () => {
-            console.log('left');
+            if (this.playerDimension === this.dimensionNum && this.player.x > 0) {
+                const type = this.boards[this.dimensionNum][
+                    this.i(this.player.x - 1, this.player.y)
+                ];
+
+                if (type !== 'Wall') {
+                    --this.player.x;
+                }
+            }
         };
 
         const right = () => {
-            console.log('right');
+            if (this.playerDimension === this.dimensionNum && this.player.x < this.COLUMNS - 1) {
+                const type = this.boards[this.dimensionNum][
+                    this.i(this.player.x + 1, this.player.y)
+                ];
+
+                if (type !== 'Wall') {
+                    ++this.player.x;
+                }
+            }
         };
 
         const up = () => {
-            console.log('up');
+            if (this.playerDimension === this.dimensionNum && this.player.y > 0) {
+                const type = this.boards[this.dimensionNum][
+                    this.i(this.player.x, this.player.y - 1)
+                ];
+
+                if (type !== 'Wall') {
+                    --this.player.y;
+                }
+            }
         };
 
         const down = () => {
-            console.log('down');
+            if (this.playerDimension === this.dimensionNum && this.player.y < this.ROWS - 1) {
+                const type = this.boards[this.dimensionNum][
+                    this.i(this.player.x, this.player.y + 1)
+                ];
+
+                if (type !== 'Wall') {
+                    ++this.player.y;
+                }
+            }
+        };
+
+        const tp = () => {
+            const type = this.boards[this.dimensionNum][this.i(this.player.x, this.player.y)];
+
+            if (this.playerDimension === this.dimensionNum && typeof type === 'number') {
+                this.playerDimension = type;
+            }
         };
 
         const prevDimension = () => {
@@ -106,6 +153,7 @@ export default class Game {
         };
 
         const actions = {
+            ' ': tp,
             '[': prevDimension,
             ']': nextDimension,
             ArrowLeft: left,
