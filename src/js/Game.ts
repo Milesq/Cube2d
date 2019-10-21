@@ -1,8 +1,5 @@
-import { assert } from './utils';
-
-type PortalTarget = number;
-type Field = 'Wall' | PortalTarget | 'Blank';
-type Board = Field[];
+import { assert, rand } from './utils';
+import { Board, fieldTypes } from './BoardTypes';
 
 export default class Game {
     private readonly canvas: HTMLCanvasElement;
@@ -12,13 +9,22 @@ export default class Game {
 
     private COLUMNS: number;
     private ROWS: number;
+    private fieldSize: number;
+
+    private xy(i: number): [number, number] {
+        return [i % this.COLUMNS, Math.floor(i / this.COLUMNS)];
+    }
+
+    private i(x: number, y: number): number {
+        return y * this.COLUMNS + x;
+    }
 
     private randomBoard(): Board {
         const size = this.COLUMNS * this.ROWS;
         const newBoard: Board = [];
 
         for (let i = 0; i < size; ++i) {
-            if (Math.random() < 0.3) newBoard.push('Blank');
+            if (Math.random() < 0.6) newBoard.push('Blank');
             else if (Math.random() < 0.09) newBoard.push(-1);
             else newBoard.push('Wall');
         }
@@ -31,9 +37,10 @@ export default class Game {
         this.ctx = _canvas.getContext('2d');
     }
 
-    setSize(cols: number, rows: number): void {
+    setSize(cols: number, rows: number, _fieldSize: number = 50): void {
         this.COLUMNS = cols;
         this.ROWS = rows;
+        this.fieldSize = _fieldSize;
     }
 
     generateDimensions(num: number): void {
@@ -59,12 +66,11 @@ export default class Game {
     }
 
     draw(): void {
-        console.log(this.board);
+        this.board.forEach((field, i) => {
+            const S = this.fieldSize;
+            const [x, y] = this.xy(i);
+            this.ctx.fillStyle = fieldTypes[field];
+            this.ctx.fillRect(x * S, y * S, S, S);
+        });
     }
-}
-
-function rand(min: number, max: number): number {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
 }
