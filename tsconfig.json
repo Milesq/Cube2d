@@ -2,6 +2,6 @@
     "compilerOptions": {
         "lib": ["es2015", "dom", "es6"],
         "sourceMap": true,
-        "noImplicitAny": true
+        "noImplicitAny": false
     }
 }
