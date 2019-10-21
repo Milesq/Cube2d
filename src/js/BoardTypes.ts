@@ -23,6 +23,6 @@ export const fieldTypes = new Proxy({}, {
             return `rgb(${R}, ${G}, ${B})`;
         }
 
-        return `rgb(${rand(0, 255)}, ${rand(0, 255)}, ${rand(0, 255)})`;
+        return `rgb(${rand(0, 128)}, ${rand(0, 128)}, ${rand(0, 255)})`;
     }
 });
