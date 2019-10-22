@@ -1,4 +1,4 @@
-import { assert, rand, randNot } from './utils';
+import { assert, rand, randNot, series } from './utils';
 import { Board, fieldTypes } from './BoardTypes';
 import Player from './Player';
 
@@ -16,6 +16,7 @@ export default class Game {
     private ROWS: number;
     private fieldSize: number;
     private playerText: string;
+    worldInfo: HTMLElement;
 
     private xy(i: number): [number, number] {
         return [i % this.COLUMNS, Math.floor(i / this.COLUMNS)];
@@ -36,6 +37,12 @@ export default class Game {
         }
 
         return newBoard;
+    }
+
+    private updateInfo(): void {
+        try {
+            this.worldInfo.innerHTML = this.dimensionNum + 1 + '';
+        } catch {}
     }
 
     constructor(_canvas: HTMLCanvasElement, cols: number, rows: number, _fieldSize: number = 50) {
@@ -73,7 +80,8 @@ export default class Game {
             })
         );
 
-        window.addEventListener('keydown', this.keydown_handler.bind(this));
+        window.addEventListener('keydown', this.keydownHandler.bind(this));
+        this.updateInfo();
     }
 
     draw(): void {
@@ -96,7 +104,7 @@ export default class Game {
         }
     }
 
-    keydown_handler(ev: KeyboardEvent): void {
+    keydownHandler(ev: KeyboardEvent): void {
         this.playerText = '';
         const hotKeys = [...'p wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
 
@@ -176,17 +184,23 @@ export default class Game {
             }
         };
 
+        const updateInfo = this.updateInfo.bind(this);
+
         const actions = {
-            p: tpBack,
-            ' ': tp,
-            '[': prevDimension,
-            ']': nextDimension,
+            p: series(tpBack, updateInfo),
+            ' ': series(tp, updateInfo),
+            '[': series(prevDimension, updateInfo),
+            ']': series(nextDimension, updateInfo),
+
             ArrowLeft: left,
             a: left,
+
             ArrowRight: right,
             d: right,
+
             ArrowUp: up,
             w: up,
+
             ArrowDown: down,
             s: down
         };
@@ -199,7 +213,7 @@ export default class Game {
             ];
 
             if (typeof currentField === 'number') {
-                this.playerText = currentField + '';
+                this.playerText = currentField + 1 + '';
             }
         }
     }

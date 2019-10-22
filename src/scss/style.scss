@@ -2,6 +2,12 @@
 @import './vars';
 
 body {
-  background-image: linear-gradient(to right bottom, $main, lighten($main, 20));
-  min-height: 100vh;
+    background-image: linear-gradient(to right bottom, $main, lighten($main, 20));
+    min-height: 100vh;
+}
+
+.current-world {
+    font-size: 48px;
+    color: white;
+    font-weight: 700;
 }
