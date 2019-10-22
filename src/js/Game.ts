@@ -16,7 +16,6 @@ export default class Game {
     private COLUMNS: number;
     private ROWS: number;
     private fieldSize: number;
-    private playerText: string;
     private portalAnimationPart: number;
     worldInfo: HTMLElement;
 
@@ -94,8 +93,8 @@ export default class Game {
     }
 
     draw(): void {
+        // Clear
         this.ctx.fillStyle = 'rgb(58, 157, 35)';
-        this.ctx.fillStyle = 'rgb(92,94,97)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Drawing board
@@ -107,20 +106,9 @@ export default class Game {
 
         // Drawing player
         if (this.playerDimension === this.dimensionNum) this.player.draw();
-
-        // Drawing portal's target
-        if (this.playerText !== undefined) {
-            this.ctx.fillStyle = 'rgb(0, 0, 0)';
-            this.ctx.fillText(
-                this.playerText,
-                this.player.x * this.fieldSize + this.fieldSize / 2 - 8,
-                this.player.y * this.fieldSize + this.fieldSize / 2 + 8
-            );
-        }
     }
 
     keydownHandler(ev: KeyboardEvent): void {
-        this.playerText = '';
         const hotKeys = [...'p wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
 
         const left = () => {
@@ -222,16 +210,6 @@ export default class Game {
             s: down
         };
 
-        if (hotKeys.find(key => key === ev.key)) {
-            actions[ev.key]();
-
-            const currentField = this.boards[this.dimensionNum][
-                this.i(this.player.x, this.player.y)
-            ];
-
-            if (typeof currentField === 'number') {
-                this.playerText = currentField + 1 + '';
-            }
-        }
+        if (hotKeys.find(key => key === ev.key)) actions[ev.key]();
     }
 }
