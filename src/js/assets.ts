@@ -1,9 +1,14 @@
-export const stone = fetch(require('./../assets/stone.png'))
-    .then(x => x.blob())
-    .then(blob => createImageBitmap(blob));
+const image = (path: string) =>
+    fetch(path)
+        .then(x => x.blob())
+        .then(blob => createImageBitmap(blob));
 
-export const portal = fetch(require('./../assets/portals.png'))
-    .then(x => x.blob())
-    .then(blob => createImageBitmap(blob));
+export const stone = image(require('../assets/stone.png'));
+
+export const portal = image(require('../assets/portals.png'));
+
+export const player = image(require('../assets/player.png'));
+
+export const grass = image(require('../assets/grass.png'));
 
 export const teleportSound = new Audio(require('./../assets/teleport.wav'));

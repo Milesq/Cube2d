@@ -1,3 +1,5 @@
+import { player } from './assets';
+
 export default class Player {
     x: number;
     y: number;
@@ -11,10 +13,8 @@ export default class Player {
         this.size = _size;
     }
 
-    draw(): void {
-        this.ctx.fillStyle = 'rgb(255, 255, 255)';
-
+    async draw(): Promise<void> {
         const S = this.size;
-        this.ctx.fillRect(this.x * S, this.y * S, S, S);
+        this.ctx.drawImage(await player, 0, 0, 12, 12, this.x * S, this.y * S, 48, 48);
     }
 }

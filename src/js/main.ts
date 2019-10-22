@@ -1,5 +1,5 @@
 import Game from './Game';
-import { portal, stone } from './assets';
+import { portal, stone, grass, player } from './assets';
 
 const canvas = <HTMLCanvasElement>document.getElementById('game');
 
@@ -10,6 +10,8 @@ game.init();
 
 (async () => {
     await portal;
+    await grass;
+    await player;
     await stone;
 
     function draw(): void {

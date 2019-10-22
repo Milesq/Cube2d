@@ -94,8 +94,7 @@ export default class Game {
 
     draw(): void {
         // Clear
-        this.ctx.fillStyle = 'rgb(58, 157, 35)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Drawing board
         this.boards[this.dimensionNum].forEach((field, i) => {
