@@ -1,7 +1,7 @@
-import { assert, randNot, series } from './utils';
+import { assert, randNot, series, rand } from './utils';
 import { Board, draw } from './BoardDraw';
 import Player from './Player';
-import { teleportSound } from './assets';
+import { teleportSound, winSound } from './assets';
 
 export default class Game {
     player: Player;
@@ -18,6 +18,7 @@ export default class Game {
     private fieldSize: number;
     private portalAnimationPart: number;
     worldInfo: HTMLElement;
+    ended: boolean;
 
     private xy(i: number): [number, number] {
         return [i % this.COLUMNS, Math.floor(i / this.COLUMNS)];
@@ -68,6 +69,9 @@ export default class Game {
         for (let i = 0; i < num; ++i) {
             this.boards.push(this.randomBoard());
         }
+
+        const randDimension = rand(1, num);
+        this.boards[randDimension][rand(0, this.COLUMNS * this.ROWS)] = 'Meta';
     }
 
     init(): void {
@@ -211,5 +215,15 @@ export default class Game {
         };
 
         if (hotKeys.find(key => key === ev.key)) actions[ev.key]();
+
+        if (this.boards[this.dimensionNum][this.i(this.player.x, this.player.y)] === 'Meta') {
+            this.win();
+        }
+    }
+
+    protected win(): void {
+        window.onkeydown = () => console.log('Won');
+        winSound.play();
+        this.ended = true;
     }
 }

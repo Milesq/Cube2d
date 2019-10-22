@@ -18,7 +18,8 @@ game.init();
 
     function draw(): void {
         game.draw();
-        window.requestAnimationFrame(draw);
+
+        if (!game.ended) window.requestAnimationFrame(draw);
     }
 
     window.requestAnimationFrame(draw);

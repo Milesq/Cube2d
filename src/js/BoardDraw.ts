@@ -1,4 +1,4 @@
-import { stone, portal, grass } from './assets';
+import { stone, portal, grass, meta } from './assets';
 
 export type PortalTarget = number;
 export type Field = 'Wall' | PortalTarget | 'Meta' | 'Blank';
@@ -17,6 +17,7 @@ export const draw = async (
     } else if (field === 'Blank') {
         ctx.drawImage(await grass, x * S, y * S);
     } else {
-        ctx.drawImage(await portal, 32 * type, 0, 32, 32, x * S, y * S, 60, 60);
+        if (field === 'Meta') ctx.drawImage(await meta, 32 * type, 0, 32, 32, x * S, y * S, 60, 60);
+        else ctx.drawImage(await portal, 32 * type, 0, 32, 32, x * S, y * S, 60, 60);
     }
 };
