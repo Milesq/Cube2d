@@ -2,6 +2,7 @@ import { assert, randNot, series, rand } from './utils';
 import { Board, draw } from './BoardDraw';
 import Player from './Player';
 import { teleportSound, winSound } from './assets';
+import isValidBoard from './isValidBoard';
 
 export default class Game {
     player: Player;
@@ -32,15 +33,16 @@ export default class Game {
 
     private randomBoard(): Board {
         const size = this.COLUMNS * this.ROWS;
-        const newBoard: Board = [];
+        const newBoard: Board = ['Blank'];
 
-        for (let i = 0; i < size; ++i) {
+        for (let i = 1; i < size - 1; ++i) {
             if (Math.random() < 0.6) newBoard.push('Blank');
             else if (Math.random() < 0.09) newBoard.push(-1);
             else newBoard.push('Wall');
         }
 
-        return newBoard;
+        if (isValidBoard(newBoard)) return newBoard;
+        else return this.randomBoard();
     }
 
     private updateInfo(): void {
@@ -238,7 +240,6 @@ export default class Game {
     }
 
     protected win(): void {
-        window.onkeydown = () => console.log('Won');
         winSound.play();
         this.ended = true;
     }
