@@ -1,10 +1,7 @@
-import { assert, rand, randNot, series } from './utils';
-import { Board, fieldTypes } from './BoardTypes';
+import { assert, randNot, series } from './utils';
+import { Board, draw } from './BoardDraw';
 import Player from './Player';
-
-const teleportSoundPath: string = require('./../assets/teleport.wav');
-
-const teleportSound = new Audio(teleportSoundPath);
+import { teleportSound } from './assets';
 
 export default class Game {
     player: Player;
@@ -89,15 +86,19 @@ export default class Game {
     }
 
     draw(): void {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Drawing board
         this.boards[this.dimensionNum].forEach((field, i) => {
             const S = this.fieldSize;
             const [x, y] = this.xy(i);
-            this.ctx.fillStyle = fieldTypes[field];
-            this.ctx.fillRect(x * S, y * S, S, S);
+            draw(this.ctx, S, x, y, field);
         });
 
+        // Drawing player
         if (this.playerDimension === this.dimensionNum) this.player.draw();
 
+        // Drawing portal's target
         if (this.playerText !== undefined) {
             this.ctx.fillStyle = 'rgb(0, 0, 0)';
             this.ctx.fillText(
