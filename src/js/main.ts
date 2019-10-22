@@ -13,7 +13,7 @@ game.init();
     await grass;
     await player;
     await stone;
-    backgroundSound.play();
+    // backgroundSound.play();
     backgroundSound.volume /= 2;
 
     function draw(): void {
