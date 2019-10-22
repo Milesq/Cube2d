@@ -1,7 +1,7 @@
 import { assert, randNot, series, rand } from './utils';
 import { Board, draw } from './BoardDraw';
 import Player from './Player';
-import { teleportSound, winSound } from './assets';
+import { teleportSound, winSound, backgroundSound } from './assets';
 import isValidBoard from './isValidBoard';
 
 export default class Game {
@@ -240,7 +240,8 @@ export default class Game {
     }
 
     protected win(): void {
-        // winSound.play();
+        backgroundSound.volume = 0;
+        winSound.play();
         this.ended = true;
     }
 }
