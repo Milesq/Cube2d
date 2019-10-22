@@ -1,7 +1,7 @@
 import { stone, portal, grass } from './assets';
 
 export type PortalTarget = number;
-export type Field = 'Wall' | PortalTarget | 'Blank';
+export type Field = 'Wall' | PortalTarget | 'Meta' | 'Blank';
 export type Board = Field[];
 
 export const draw = async (
@@ -11,7 +11,7 @@ export const draw = async (
     y: number,
     field: Field,
     type: number
-) => {
+): Promise<void> => {
     if (field === 'Wall') {
         ctx.drawImage(await stone, x * S, y * S);
     } else if (field === 'Blank') {

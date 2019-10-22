@@ -6,7 +6,7 @@ export default class Player {
     private readonly ctx: CanvasRenderingContext2D;
     private readonly size: number;
 
-    constructor(_x: number, _y: number, _ctx: CanvasRenderingContext2D, _size: number = 50) {
+    constructor(_x: number, _y: number, _ctx: CanvasRenderingContext2D, _size = 50) {
         this.x = _x;
         this.y = _y;
         this.ctx = _ctx;

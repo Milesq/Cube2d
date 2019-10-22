@@ -1,8 +1,9 @@
-const image = (path: string) =>
+const image = (path: string): Promise<ImageBitmap> =>
     fetch(path)
         .then(x => x.blob())
         .then(blob => createImageBitmap(blob));
 
+/* eslint @typescript-eslint/no-var-requires: "off" */
 export const stone = image(require('../assets/stone.png'));
 
 export const portal = image(require('../assets/portals.png'));

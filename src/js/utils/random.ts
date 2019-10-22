@@ -4,7 +4,7 @@ export default function random(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-export const randNot = (unwanted: number, min: number, max: number) => {
+export const randNot = (unwanted: number, min: number, max: number): number => {
     let randomized;
 
     do {

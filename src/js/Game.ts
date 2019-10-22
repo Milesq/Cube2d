@@ -46,7 +46,7 @@ export default class Game {
         } catch {}
     }
 
-    constructor(_canvas: HTMLCanvasElement, cols: number, rows: number, _fieldSize: number = 60) {
+    constructor(_canvas: HTMLCanvasElement, cols: number, rows: number, _fieldSize = 60) {
         this.canvas = _canvas;
         this.ctx = _canvas.getContext('2d');
         this.ctx.font = 'bold 32px sans-serif';
@@ -110,7 +110,7 @@ export default class Game {
     keydownHandler(ev: KeyboardEvent): void {
         const hotKeys = [...'p wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
 
-        const left = () => {
+        const left = (): void => {
             if (this.playerDimension === this.dimensionNum && this.player.x > 0) {
                 const type = this.boards[this.dimensionNum][
                     this.i(this.player.x - 1, this.player.y)
@@ -122,7 +122,7 @@ export default class Game {
             }
         };
 
-        const right = () => {
+        const right = (): void => {
             if (this.playerDimension === this.dimensionNum && this.player.x < this.COLUMNS - 1) {
                 const type = this.boards[this.dimensionNum][
                     this.i(this.player.x + 1, this.player.y)
@@ -134,7 +134,7 @@ export default class Game {
             }
         };
 
-        const up = () => {
+        const up = (): void => {
             if (this.playerDimension === this.dimensionNum && this.player.y > 0) {
                 const type = this.boards[this.dimensionNum][
                     this.i(this.player.x, this.player.y - 1)
@@ -146,7 +146,7 @@ export default class Game {
             }
         };
 
-        const down = () => {
+        const down = (): void => {
             if (this.playerDimension === this.dimensionNum && this.player.y < this.ROWS - 1) {
                 const type = this.boards[this.dimensionNum][
                     this.i(this.player.x, this.player.y + 1)
@@ -158,7 +158,7 @@ export default class Game {
             }
         };
 
-        const tp = () => {
+        const tp = (): void => {
             const type = this.boards[this.dimensionNum][this.i(this.player.x, this.player.y)];
 
             if (this.playerDimension === this.dimensionNum && typeof type === 'number') {
@@ -169,17 +169,17 @@ export default class Game {
             }
         };
 
-        const prevDimension = () => {
+        const prevDimension = (): void => {
             if (this.dimensionNum === 0) this.dimensionNum = this.boards.length - 1;
             else --this.dimensionNum;
         };
 
-        const nextDimension = () => {
+        const nextDimension = (): void => {
             if (this.dimensionNum === this.boards.length - 1) this.dimensionNum = 0;
             else ++this.dimensionNum;
         };
 
-        const tpBack = () => {
+        const tpBack = (): void => {
             if (this.lastDimensions.length) {
                 teleportSound.play();
                 const prev = this.lastDimensions.pop();
