@@ -5,7 +5,7 @@ import { portal, stone, grass, player, backgroundSound } from './assets';
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 
 const game = new Game(canvas, 10, 10);
-game.generateDimensions(2);
+game.generateDimensions(3);
 game.worldInfo = document.getElementById('currentWorld');
 game.init();
 
