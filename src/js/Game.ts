@@ -15,6 +15,7 @@ export default class Game {
     private COLUMNS: number;
     private ROWS: number;
     private fieldSize: number;
+    private playerText: string;
 
     private xy(i: number): [number, number] {
         return [i % this.COLUMNS, Math.floor(i / this.COLUMNS)];
@@ -40,6 +41,7 @@ export default class Game {
     constructor(_canvas: HTMLCanvasElement, cols: number, rows: number, _fieldSize: number = 50) {
         this.canvas = _canvas;
         this.ctx = _canvas.getContext('2d');
+        this.ctx.font = 'bold 32px sans-serif';
         this.dimensionNum = 0;
         this.playerDimension = 0;
         this.lastDimensions = [];
@@ -83,9 +85,19 @@ export default class Game {
         });
 
         if (this.playerDimension === this.dimensionNum) this.player.draw();
+
+        if (this.playerText !== undefined) {
+            this.ctx.fillStyle = 'rgb(0, 0, 0)';
+            this.ctx.fillText(
+                this.playerText,
+                this.player.x * this.fieldSize + this.fieldSize / 2 - 8,
+                this.player.y * this.fieldSize + this.fieldSize / 2 + 8
+            );
+        }
     }
 
     keydown_handler(ev: KeyboardEvent): void {
+        this.playerText = '';
         const hotKeys = [...'p wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
 
         const left = () => {
@@ -157,9 +169,11 @@ export default class Game {
         };
 
         const tpBack = () => {
-            const prev = this.lastDimensions.pop();
-            this.playerDimension = prev;
-            this.dimensionNum = prev;
+            if (this.lastDimensions.length) {
+                const prev = this.lastDimensions.pop();
+                this.playerDimension = prev;
+                this.dimensionNum = prev;
+            }
         };
 
         const actions = {
@@ -177,6 +191,16 @@ export default class Game {
             s: down
         };
 
-        if (hotKeys.find(key => key === ev.key)) actions[ev.key]();
+        if (hotKeys.find(key => key === ev.key)) {
+            actions[ev.key]();
+
+            const currentField = this.boards[this.dimensionNum][
+                this.i(this.player.x, this.player.y)
+            ];
+
+            if (typeof currentField === 'number') {
+                this.playerText = currentField + '';
+            }
+        }
     }
 }
