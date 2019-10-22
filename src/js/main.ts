@@ -1,4 +1,5 @@
 import Game from './Game';
+import { portal, stone } from './assets';
 
 const canvas = <HTMLCanvasElement>document.getElementById('game');
 
@@ -7,9 +8,14 @@ game.generateDimensions(5);
 game.worldInfo = document.getElementById('currentWorld');
 game.init();
 
-function draw(): void {
-    game.draw();
-    window.requestAnimationFrame(draw);
-}
+(async () => {
+    await portal;
+    await stone;
 
-window.requestAnimationFrame(draw);
+    function draw(): void {
+        game.draw();
+        window.requestAnimationFrame(draw);
+    }
+
+    window.requestAnimationFrame(draw);
+})();

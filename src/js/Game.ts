@@ -17,6 +17,7 @@ export default class Game {
     private ROWS: number;
     private fieldSize: number;
     private playerText: string;
+    private portalAnimationPart: number;
     worldInfo: HTMLElement;
 
     private xy(i: number): [number, number] {
@@ -46,7 +47,7 @@ export default class Game {
         } catch {}
     }
 
-    constructor(_canvas: HTMLCanvasElement, cols: number, rows: number, _fieldSize: number = 50) {
+    constructor(_canvas: HTMLCanvasElement, cols: number, rows: number, _fieldSize: number = 60) {
         this.canvas = _canvas;
         this.ctx = _canvas.getContext('2d');
         this.ctx.font = 'bold 32px sans-serif';
@@ -83,6 +84,13 @@ export default class Game {
 
         window.addEventListener('keydown', this.keydownHandler.bind(this));
         this.updateInfo();
+        this.portalAnimationPart = 0;
+
+        setInterval(() => {
+            if (this.portalAnimationPart === 4) {
+                this.portalAnimationPart = 0;
+            } else ++this.portalAnimationPart;
+        }, 1000 / 8);
     }
 
     draw(): void {
@@ -94,7 +102,7 @@ export default class Game {
         this.boards[this.dimensionNum].forEach((field, i) => {
             const S = this.fieldSize;
             const [x, y] = this.xy(i);
-            draw(this.ctx, S, x, y, field);
+            draw(this.ctx, S, x, y, field, this.portalAnimationPart);
         });
 
         // Drawing player
