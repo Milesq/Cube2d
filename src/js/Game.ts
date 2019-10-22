@@ -1,4 +1,4 @@
-import { assert, rand } from './utils';
+import { assert, rand, randNot } from './utils';
 import { Board, fieldTypes } from './BoardTypes';
 import Player from './Player';
 
@@ -65,9 +65,9 @@ export default class Game {
     init(): void {
         const max = this.boards.length;
 
-        this.boards = this.boards.map(board =>
+        this.boards = this.boards.map((board, dimNum) =>
             board.map(field => {
-                if (field === -1) return rand(0, max);
+                if (field === -1) return randNot(dimNum, 0, max);
 
                 return field;
             })

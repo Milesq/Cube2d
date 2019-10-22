@@ -1,4 +1,4 @@
 import assert from './assert';
-import rand from './random';
+import rand, { randNot } from './random';
 
-export { assert, rand };
+export { assert, rand, randNot };
