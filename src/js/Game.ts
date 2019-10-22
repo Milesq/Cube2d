@@ -10,6 +10,7 @@ export default class Game {
     private boards: Board[];
     private dimensionNum: number;
     private playerDimension: number;
+    private lastDimensions: number[];
 
     private COLUMNS: number;
     private ROWS: number;
@@ -41,6 +42,7 @@ export default class Game {
         this.ctx = _canvas.getContext('2d');
         this.dimensionNum = 0;
         this.playerDimension = 0;
+        this.lastDimensions = [];
 
         this.player = new Player(0, 0, this.ctx, _fieldSize);
 
@@ -84,7 +86,7 @@ export default class Game {
     }
 
     keydown_handler(ev: KeyboardEvent): void {
-        const hotKeys = [...' wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
+        const hotKeys = [...'p wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
 
         const left = () => {
             if (this.playerDimension === this.dimensionNum && this.player.x > 0) {
@@ -139,6 +141,8 @@ export default class Game {
 
             if (this.playerDimension === this.dimensionNum && typeof type === 'number') {
                 this.playerDimension = type;
+                this.lastDimensions.push(this.dimensionNum);
+                this.dimensionNum = type;
             }
         };
 
@@ -152,7 +156,14 @@ export default class Game {
             else ++this.dimensionNum;
         };
 
+        const tpBack = () => {
+            const prev = this.lastDimensions.pop();
+            this.playerDimension = prev;
+            this.dimensionNum = prev;
+        };
+
         const actions = {
+            p: tpBack,
             ' ': tp,
             '[': prevDimension,
             ']': nextDimension,
