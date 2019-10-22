@@ -2,6 +2,10 @@ import { assert, rand, randNot, series } from './utils';
 import { Board, fieldTypes } from './BoardTypes';
 import Player from './Player';
 
+const teleportSoundPath: string = require('./../assets/teleport.wav');
+
+const teleportSound = new Audio(teleportSoundPath);
+
 export default class Game {
     player: Player;
 
@@ -160,6 +164,7 @@ export default class Game {
             const type = this.boards[this.dimensionNum][this.i(this.player.x, this.player.y)];
 
             if (this.playerDimension === this.dimensionNum && typeof type === 'number') {
+                teleportSound.play();
                 this.playerDimension = type;
                 this.lastDimensions.push(this.dimensionNum);
                 this.dimensionNum = type;
@@ -178,6 +183,7 @@ export default class Game {
 
         const tpBack = () => {
             if (this.lastDimensions.length) {
+                teleportSound.play();
                 const prev = this.lastDimensions.pop();
                 this.playerDimension = prev;
                 this.dimensionNum = prev;
