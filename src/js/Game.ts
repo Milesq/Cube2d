@@ -240,7 +240,7 @@ export default class Game {
     }
 
     protected win(): void {
-        winSound.play();
+        // winSound.play();
         this.ended = true;
     }
 }
