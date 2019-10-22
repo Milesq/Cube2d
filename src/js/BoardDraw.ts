@@ -13,8 +13,8 @@ export const draw = async (
 ) => {
     if (field === 'Wall') {
         ctx.drawImage(await stone, x * S, y * S);
-        return;
+    } else if (field === 'Blank') {
+        ctx.fillStyle = 'rgb(58, 157, 35)';
+        ctx.fillRect(x * S, y * S, S, S);
     }
-    ctx.fillStyle = 'rgb(255, 0, 255)';
-    ctx.fillRect(x * S, y * S, S, S);
 };
