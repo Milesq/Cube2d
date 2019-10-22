@@ -18,6 +18,8 @@ export default class Game {
     private fieldSize: number;
     private portalAnimationPart: number;
     worldInfo: HTMLElement;
+    jumpNum: number;
+    moves: number;
     ended: boolean;
 
     private xy(i: number): [number, number] {
@@ -53,6 +55,8 @@ export default class Game {
         this.ctx.font = 'bold 32px sans-serif';
         this.dimensionNum = 0;
         this.playerDimension = 0;
+        this.jumpNum = 0;
+        this.moves = 0;
         this.lastDimensions = [];
 
         this.player = new Player(0, 0, this.ctx, _fieldSize);
@@ -74,6 +78,8 @@ export default class Game {
         this.boards[randDimension][rand(0, this.COLUMNS * this.ROWS)] = 'Meta';
     }
 
+    begTime: number;
+
     init(): void {
         const max = this.boards.length;
 
@@ -94,6 +100,8 @@ export default class Game {
                 this.portalAnimationPart = 0;
             } else ++this.portalAnimationPart;
         }, 1000 / 8);
+
+        this.begTime = new Date().getTime();
     }
 
     draw(): void {
@@ -123,6 +131,7 @@ export default class Game {
 
                 if (type !== 'Wall') {
                     --this.player.x;
+                    ++this.moves;
                 }
             }
         };
@@ -135,6 +144,7 @@ export default class Game {
 
                 if (type !== 'Wall') {
                     ++this.player.x;
+                    ++this.moves;
                 }
             }
         };
@@ -147,6 +157,7 @@ export default class Game {
 
                 if (type !== 'Wall') {
                     --this.player.y;
+                    ++this.moves;
                 }
             }
         };
@@ -159,6 +170,7 @@ export default class Game {
 
                 if (type !== 'Wall') {
                     ++this.player.y;
+                    ++this.moves;
                 }
             }
         };
@@ -172,6 +184,8 @@ export default class Game {
                 this.lastDimensions.push(this.dimensionNum);
                 this.dimensionNum = type;
             }
+
+            ++this.jumpNum;
         };
 
         const prevDimension = (): void => {
@@ -191,6 +205,8 @@ export default class Game {
                 this.playerDimension = prev;
                 this.dimensionNum = prev;
             }
+
+            ++this.jumpNum;
         };
 
         const updateInfo = this.updateInfo.bind(this);
