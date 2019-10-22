@@ -1,5 +1,5 @@
 import Game from './Game';
-import { portal, stone, grass, player } from './assets';
+import { portal, stone, grass, player, backgroundSound } from './assets';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 
@@ -13,6 +13,8 @@ game.init();
     await grass;
     await player;
     await stone;
+    backgroundSound.play();
+    backgroundSound.volume /= 2;
 
     function draw(): void {
         game.draw();

@@ -13,3 +13,5 @@ export const player = image(require('../assets/player.png'));
 export const grass = image(require('../assets/grass.png'));
 
 export const teleportSound = new Audio(require('./../assets/teleport.wav'));
+
+export const backgroundSound = new Audio(require('./../assets/background.mp3'));
