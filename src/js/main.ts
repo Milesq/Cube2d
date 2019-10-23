@@ -16,11 +16,11 @@ for (let i = 0; i < 20; ++i) {
     bg.appendChild(document.createElement('span'));
 }
 
+document.body.appendChild(bg);
 
 router.on({
     '/'() {
         app.innerHTML = menu;
-        app.appendChild(bg);
     },
     start() {
         app.innerHTML = '';
