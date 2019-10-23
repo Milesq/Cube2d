@@ -25,8 +25,11 @@ export default function start(app: HTMLElement): void {
         await grass;
         await player;
         await stone;
-        backgroundSound.play();
-        backgroundSound.volume /= 3;
+
+        if (localStorage.getItem('music') === null) {
+            backgroundSound.play();
+            backgroundSound.volume /= 3;
+        }
 
         async function draw(): Promise<void> {
             game.draw();

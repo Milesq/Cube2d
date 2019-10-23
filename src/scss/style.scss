@@ -1,6 +1,9 @@
+@import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+@import '@fortawesome/fontawesome-free/css/solid.min.css';
 @import 'normalize.css';
 @import './vars';
-@import './bg.scss';
+@import './bg';
+@import './settings.page';
 
 body {
   min-height: 100vh;
@@ -29,16 +32,18 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background: #fff;
-  box-shadow: 0 2px 15px 0 #fff;
+  // background: #fff;
+  // box-shadow: 0 2px 15px 0 #fff;
   border-radius: 1.5%;
   padding: 30px;
+
+  color: white;
 }
 
 a.menu__item {
   text-align: center;
   box-shadow: 0 5px 0 darkblue;
-	background-color: blue;
+	background-color: hsl(240, 50%, 50%);
   color: white;
   padding: 1em 1.5em;
   position: relative;

@@ -5,11 +5,13 @@ body {
   overflow: hidden;
 }
 
+$bg: #3E1E68 !default;
+
 .background {
   width: 100vw;
   height: 100vh;
 
-  background: #3E1E68;
+  background: $bg;
 }
 
 $particleSize: 20vmin;

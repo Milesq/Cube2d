@@ -181,7 +181,10 @@ export default class Game {
             const type = this.boards[this.dimensionNum][this.i(this.player.x, this.player.y)];
 
             if (this.playerDimension === this.dimensionNum && typeof type === 'number') {
-                teleportSound.play();
+                if (localStorage.getItem('sounds') === null) {
+                    teleportSound.play();
+                }
+
                 this.playerDimension = type;
                 this.lastDimensions.push(this.dimensionNum);
                 this.dimensionNum = type;
@@ -202,7 +205,10 @@ export default class Game {
 
         const tpBack = (): void => {
             if (this.lastDimensions.length) {
-                teleportSound.play();
+                if (localStorage.getItem('sounds') === null) {
+                    teleportSound.play();
+                }
+
                 const prev = this.lastDimensions.pop();
                 this.playerDimension = prev;
                 this.dimensionNum = prev;
@@ -240,8 +246,10 @@ export default class Game {
     }
 
     protected win(): void {
-        backgroundSound.volume = 0;
-        winSound.play();
+        if (localStorage.getItem('music') === null) {
+            backgroundSound.volume = 0;
+            winSound.play();
+        }
         this.ended = true;
     }
 }

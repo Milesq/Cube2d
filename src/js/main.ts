@@ -1,5 +1,6 @@
 import Navigo from 'navigo';
 import startGame from './startGame';
+import settings from './pages/settings';
 
 /* eslint @typescript-eslint/no-var-requires: "off" */
 const menu = require('../menu.html');
@@ -28,6 +29,7 @@ router.on({
     },
     settings() {
         app.innerHTML = options;
+        settings();
     },
     manual() {
         app.innerHTML = manual;
