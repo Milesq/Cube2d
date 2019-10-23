@@ -1,17 +1,58 @@
 @import 'normalize.css';
 @import './vars';
+@import './bg.scss';
 
 body {
-  background-image: linear-gradient(to right bottom, $main, lighten($main, 20));
   min-height: 100vh;
+  font-family: sans-serif;
+  font-weight: 600;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .current-world {
   font-size: 48px;
   color: white;
   font-weight: 700;
+}
+
+.menu {
+  position: absolute;
+  left: 40%;
+  top: 30%;
+
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background: #fff;
+  box-shadow: 0 2px 15px 0 #fff;
+  border-radius: 1.5%;
+  padding: 30px;
+}
+
+a.menu__item {
+  text-align: center;
+  box-shadow: 0 5px 0 darkblue;
+	background-color: blue;
+  color: white;
+  padding: 1em 1.5em;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 20px;
+
+  &:hover {
+    background-color: darken(blue, 15);
+    cursor: pointer;
+  }
+
+  &:active {
+    box-shadow: none;
+    top: 5px;
+  }
 }

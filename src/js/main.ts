@@ -3,18 +3,31 @@ import startGame from './startGame';
 
 /* eslint @typescript-eslint/no-var-requires: "off" */
 const menu = require('../menu.html');
+const options = require('../settings.html');
 const manual = require('../manual.html');
 
 const router = new Navigo(null, true, '#');
 const app = document.getElementById('app');
 
+const bg = document.createElement('div');
+bg.className = 'background';
+
+for (let i = 0; i < 20; ++i) {
+    bg.appendChild(document.createElement('span'));
+}
+
+
 router.on({
     '/'() {
         app.innerHTML = menu;
+        app.appendChild(bg);
     },
     start() {
         app.innerHTML = '';
         startGame(app);
+    },
+    settings() {
+        app.innerHTML = options;
     },
     manual() {
         app.innerHTML = manual;
@@ -23,7 +36,7 @@ router.on({
 
 router.hooks({
     after() {
-        app.querySelectorAll('.manu__item').forEach(el =>
+        app.querySelectorAll('.menu__item').forEach(el =>
             el.addEventListener('click', ev => {
                 ev.preventDefault();
                 const href = (ev.target as HTMLAnchorElement).getAttribute('href');
