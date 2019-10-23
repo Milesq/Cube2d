@@ -1,89 +1,36 @@
-import Swal from 'sweetalert2';
-import Game from './Game';
-import { portal, stone, grass, player, backgroundSound } from './assets';
+import Navigo from 'navigo';
+import startGame from './startGame';
 
-const canvas = document.getElementById('game') as HTMLCanvasElement;
+/* eslint @typescript-eslint/no-var-requires: "off" */
+const menu = require('../menu.html');
+const manual = require('../manual.html');
 
-const game = new Game(canvas, 10, 10);
-game.generateDimensions(3);
-game.worldInfo = document.getElementById('currentWorld');
-game.init();
+const router = new Navigo(null, true, '#');
+const app = document.getElementById('app');
 
-//████████╗ ██████╗ ██████╗  ██████╗
-//╚══██╔══╝██╔═══██╗██╔══██╗██╔═══██╗
-//   ██║   ██║   ██║██║  ██║██║   ██║
-//   ██║   ██║   ██║██║  ██║██║   ██║
-//   ██║   ╚██████╔╝██████╔╝╚██████╔╝
-//   ╚═╝    ╚═════╝ ╚═════╝  ╚═════╝
-//
-//  █████╗ ██████╗ ██████╗     ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
-// ██╔══██╗██╔══██╗██╔══██╗    ████╗ ████║██╔════╝████╗  ██║██║   ██║
-// ███████║██║  ██║██║  ██║    ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
-// ██╔══██║██║  ██║██║  ██║    ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
-// ██║  ██║██████╔╝██████╔╝    ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
-// ╚═╝  ╚═╝╚═════╝ ╚═════╝     ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝
-//
-// ██╗███╗   ██╗███████╗████████╗██████╗ ██╗   ██╗██╗  ██╗ ██████╗     ██╗ █████╗      ██████╗ ██████╗ ███████╗██╗     ██╗   ██╗ ██████╗ ██╗
-// ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║   ██║██║ ██╔╝██╔════╝     ██║██╔══██╗    ██╔═══██╗██╔══██╗██╔════╝██║     ██║   ██║██╔════╝ ██║
-// ██║██╔██╗ ██║███████╗   ██║   ██████╔╝██║   ██║█████╔╝ ██║          ██║███████║    ██║   ██║██████╔╝███████╗██║     ██║   ██║██║  ███╗██║
-// ██║██║╚██╗██║╚════██║   ██║   ██╔══██╗██║   ██║██╔═██╗ ██║     ██   ██║██╔══██║    ██║   ██║██╔══██╗╚════██║██║     ██║   ██║██║   ██║██║
-// ██║██║ ╚████║███████║   ██║   ██║  ██║╚██████╔╝██║  ██╗╚██████╗╚█████╔╝██║  ██║    ╚██████╔╝██████╔╝███████║███████╗╚██████╔╝╚██████╔╝██║
-// ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚════╝ ╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚══════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═╝
-//
-(async (): Promise<void> => {
-    await portal;
-    await grass;
-    await player;
-    await stone;
-    backgroundSound.play();
-    backgroundSound.volume /= 3;
-
-    async function draw(): Promise<void> {
-        game.draw();
-
-        if (!game.ended) window.requestAnimationFrame(draw);
-        else {
-            const WEIGHT = 5;
-            const time = Math.round((new Date().getTime() - game.begTime) / 10) / 100;
-            const score = (game.moves + Math.round(time) + game.jumpNum * WEIGHT) / 2 + WEIGHT;
-
-            const bestScore: { score: number; nick: string } = JSON.parse(
-                localStorage.getItem('best-score')
-            ) || {
-                score: 0,
-                nick: ''
-            };
-
-            if (!(score > bestScore.score)) {
-                const { value: nick } = await Swal.fire({
-                    title: 'Best score!!! Congratulations!',
-                    text: 'You achieve the highest score ever. Please lease your nick',
-                    type: 'info',
-                    input: 'text'
-                });
-
-                localStorage.setItem(
-                    'best-score',
-                    JSON.stringify({
-                        score,
-                        nick
-                    })
-                );
-
-                Swal.fire(
-                    'Good job! Your score: ' + score,
-                    `You won in ${time}, ${game.jumpNum} jumps and ${game.moves} moves!`,
-                    'success'
-                );
-            } else
-                Swal.fire(
-                    'Good job!' + score,
-                    `You won in ${time}, ${game.jumpNum} jumps and ${game.moves} moves!
-                    \n\n${bestScore.nick} achieve ${bestScore.score} points.`,
-                    'success'
-                );
-        }
+router.on({
+    '/'() {
+        app.innerHTML = menu;
+    },
+    start() {
+        app.innerHTML = '';
+        startGame(app);
+    },
+    manual() {
+        app.innerHTML = manual;
     }
+});
 
-    window.requestAnimationFrame(draw);
-})();
+router.hooks({
+    after() {
+        app.querySelectorAll('.manu__item').forEach(el =>
+            el.addEventListener('click', ev => {
+                ev.preventDefault();
+                const href = (ev.target as HTMLAnchorElement).getAttribute('href');
+                router.navigate(href);
+            })
+        );
+    }
+});
+
+router.resolve();

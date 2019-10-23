@@ -13,6 +13,7 @@
     "author": "Milesq",
     "license": "MIT",
     "dependencies": {
+        "navigo": "^7.1.2",
         "normalize.css": "^8.0.1",
         "sweetalert2": "^8.18.5"
     },
