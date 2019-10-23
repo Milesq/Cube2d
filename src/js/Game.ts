@@ -123,7 +123,7 @@ export default class Game {
     }
 
     keydownHandler(ev: KeyboardEvent): void {
-        const hotKeys = [...'p wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
+        const hotKeys = [...'pq wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
 
         const left = (): void => {
             if (this.playerDimension === this.dimensionNum && this.player.x > 0) {
@@ -217,9 +217,14 @@ export default class Game {
             ++this.jumpNum;
         };
 
+        const takeToHome = (): void => {
+            this.dimensionNum = this.playerDimension;
+        };
+
         const updateInfo = this.updateInfo.bind(this);
 
         const actions = {
+            q: series(takeToHome, updateInfo),
             p: series(tpBack, updateInfo),
             ' ': series(tp, updateInfo),
             '[': series(prevDimension, updateInfo),

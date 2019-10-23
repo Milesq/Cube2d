@@ -15,7 +15,7 @@ export default function start(app: HTMLElement): void {
     app.appendChild(canvas);
 
     const game = new Game(canvas, 10, 10);
-    game.generateDimensions(3);
+    game.generateDimensions(5);
     game.worldInfo = worldInfo;
 
     (async function(): Promise<void> {
