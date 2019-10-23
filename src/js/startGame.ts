@@ -40,11 +40,12 @@ export default function start(app: HTMLElement): void {
                 const bestScore: { score: number; nick: string } = JSON.parse(
                     localStorage.getItem('best-score')
                 ) || {
-                    score: 0,
+                    score: Infinity,
                     nick: ''
                 };
 
-                if (!(score > bestScore.score)) {
+                if (score < bestScore.score) {
+                    // New best score
                     const { value: nick } = await Swal.fire({
                         title: 'Best score!!! Congratulations!',
                         text: 'You achieve the highest score ever. Please lease your nick',
@@ -65,13 +66,14 @@ export default function start(app: HTMLElement): void {
                         `You won in ${time}, ${game.jumpNum} jumps and ${game.moves} moves!`,
                         'success'
                     );
-                } else
+                } else {
                     Swal.fire(
-                        'Good job!' + score,
+                        'Good job! Your score: ' + score,
                         `You won in ${time}, ${game.jumpNum} jumps and ${game.moves} moves!
-                    \n\n${bestScore.nick} achieve ${bestScore.score} points.`,
+                    \n\n${bestScore.nick} achieved ${bestScore.score} points.`,
                         'success'
                     );
+                }
             }
         }
 
