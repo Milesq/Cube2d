@@ -25,6 +25,8 @@ router.on({
     },
     start() {
         app.innerHTML = '';
+        document.body.classList.add('in-game');
+        (document.querySelector('.background') as HTMLElement).style.display = 'none';
         startGame(app);
     },
     settings() {
@@ -37,6 +39,11 @@ router.on({
 });
 
 router.hooks({
+    before(done: () => void) {
+        document.body.classList.remove('in-game');
+        (document.querySelector('.background') as HTMLElement).style.display = 'inherit';
+        done();
+    },
     after() {
         app.querySelectorAll('.menu__item').forEach(el =>
             el.addEventListener('click', ev => {
