@@ -1,5 +1,7 @@
 ## Cube2D
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fd13bf70-83f7-40b0-aa2f-24ad67446ad5/deploy-status)](https://app.netlify.com/sites/serene-almeida-8004c1/deploys)
+
 ### Gra Cube2D opiera się na koncepcji planszy 2-wymiarowej osadzonej w rzeczywistości 3-wymiarowej, innymi słowy gracz może na raz zobaczyć tylko planszę 2D 3-wymiarowego świata. Można przeglądać inne wymiary (klawiszami '[' oraz ']') a sama postać może poruszać się w trzecim wymiarze dzięki zielonym portalom.
 
 Gracz porusza się postacią która znajduje w lewym górnym rogu.
