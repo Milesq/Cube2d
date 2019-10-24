@@ -8,7 +8,8 @@
         "build": "parcel build src/index.html --public-url . --no-source-maps",
         "lint": "eslint src/**/*.[tj]s",
         "lint:fix": "yarn lint --fix",
-        "clean": "rm -rf dist .cache"
+        "clean": "rm -rf dist .cache",
+        "readme": "cp src/assets/manual.md readme.md"
     },
     "author": "Milesq",
     "license": "MIT",
