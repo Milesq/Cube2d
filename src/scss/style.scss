@@ -10,7 +10,6 @@ body {
   min-height: 100vh;
   font-family: sans-serif;
   font-weight: 600;
-  background: #66676a;
 
   display: flex;
   flex-direction: column;
@@ -24,13 +23,11 @@ body {
   font-weight: 700;
 }
 
-.app {
-  position: absolute;
-  left: 40%;
-  top: 30%;
-
+#app{
   z-index: 5;
+}
 
+.app {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -48,7 +45,7 @@ a.menu__item {
 	background-color: hsl(240, 50%, 50%);
   color: white;
   padding: 1em 1.5em;
-  position: relative;
+  // position: relative;
   text-decoration: none;
   text-transform: uppercase;
   margin: 20px;

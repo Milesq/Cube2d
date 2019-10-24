@@ -6,6 +6,7 @@ import settings from './pages/settings';
 const menu = require('../menu.html');
 const options = require('../settings.html');
 const manual = require('../manual.html');
+const manualContent = require('../assets/manual.md');
 
 const router = new Navigo(null, true, '#');
 const app = document.getElementById('app');
@@ -35,6 +36,7 @@ router.on({
     },
     manual() {
         app.innerHTML = manual;
+        app.querySelector('.content').innerHTML = manualContent;
     }
 });
 

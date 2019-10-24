@@ -1,8 +1,8 @@
 // inspired by https://codepen.io/Mamboleoo/pen/BxMQYQ
 
 body {
-  margin: 0;
-  overflow: hidden;
+  // margin: 0;
+  // overflow: hidden;
 }
 
 $bg: #3E1E68 !default;
@@ -10,6 +10,9 @@ $bg: #3E1E68 !default;
 .background {
   width: 100vw;
   height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   background: $bg;
 }
