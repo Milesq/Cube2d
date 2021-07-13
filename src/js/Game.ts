@@ -4,6 +4,12 @@ import Player from './Player';
 import { teleportSound, winSound, backgroundSound } from './assets';
 import isValidBoard from './isValidBoard';
 
+type Coords = Partial<{
+    x: number;
+    y: number;
+}>;
+
+type CreateMoveAction = (move: Coords) => () => void;
 export default class Game {
     player: Player;
 
@@ -123,59 +129,40 @@ export default class Game {
     }
 
     keydownHandler(ev: KeyboardEvent): void {
-        const hotKeys = [...'pq wsad[]', ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)];
+        const hotKeys = [
+            ...'pq wsad[]',
+            ...['Left', 'Right', 'Up', 'Down'].map(el => 'Arrow' + el)
+        ];
+        // eslint-disable-next-line
+        const createMoveAction: CreateMoveAction = move => () => {
+            console.log(this.playerDimension, this.dimensionNum, this.player.x);
+            if (this.playerDimension !== this.dimensionNum) return;
 
-        const left = (): void => {
-            if (this.playerDimension === this.dimensionNum && this.player.x > 0) {
-                const type = this.boards[this.dimensionNum][
-                    this.i(this.player.x - 1, this.player.y)
-                ];
+            const nextCoords = {
+                x: this.player.x + (move.x || 0),
+                y: this.player.y + (move.y || 0)
+            };
 
-                if (type !== 'Wall') {
-                    --this.player.x;
-                    ++this.moves;
-                }
+            // eslint-disable-next-line
+            const nextField = this.boards[this.dimensionNum][
+                this.i(nextCoords.x, nextCoords.y)
+            ];
+
+            const currentField = this.boards[this.dimensionNum][
+                this.i(this.player.x, this.player.y)
+            ];
+
+            if (nextField !== 'Wall' || currentField === 'Wall') {
+                this.player.x = nextCoords.x;
+                this.player.y = nextCoords.y;
+                ++this.moves;
             }
         };
 
-        const right = (): void => {
-            if (this.playerDimension === this.dimensionNum && this.player.x < this.COLUMNS - 1) {
-                const type = this.boards[this.dimensionNum][
-                    this.i(this.player.x + 1, this.player.y)
-                ];
-
-                if (type !== 'Wall') {
-                    ++this.player.x;
-                    ++this.moves;
-                }
-            }
-        };
-
-        const up = (): void => {
-            if (this.playerDimension === this.dimensionNum && this.player.y > 0) {
-                const type = this.boards[this.dimensionNum][
-                    this.i(this.player.x, this.player.y - 1)
-                ];
-
-                if (type !== 'Wall') {
-                    --this.player.y;
-                    ++this.moves;
-                }
-            }
-        };
-
-        const down = (): void => {
-            if (this.playerDimension === this.dimensionNum && this.player.y < this.ROWS - 1) {
-                const type = this.boards[this.dimensionNum][
-                    this.i(this.player.x, this.player.y + 1)
-                ];
-
-                if (type !== 'Wall') {
-                    ++this.player.y;
-                    ++this.moves;
-                }
-            }
-        };
+        const left = createMoveAction({ x: -1 });
+        const right = createMoveAction({ x: 1 });
+        const up = createMoveAction({ y: -1 });
+        const down = createMoveAction({ y: 1 });
 
         const tp = (): void => {
             const type = this.boards[this.dimensionNum][this.i(this.player.x, this.player.y)];
