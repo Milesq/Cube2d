@@ -21,10 +21,7 @@ export default function start(app: HTMLElement): void {
     (async function(): Promise<void> {
         game.init();
 
-        await portal;
-        await grass;
-        await player;
-        await stone;
+        await Promise.all([portal, grass, player, stone])
 
         if (localStorage.getItem('music') === null) {
             backgroundSound.play();
